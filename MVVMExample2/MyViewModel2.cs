@@ -91,7 +91,7 @@ namespace MVVMExample2
         }
         #endregion
 
-        #region ShowCommand
+        #region AsyncCommand
         List<string> tempList = new List<string>();
 
         private ICommand asyncCommand;
