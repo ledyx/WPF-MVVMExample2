@@ -41,19 +41,19 @@ namespace MVVMExample2
         }
         #endregion
 
-        #region InputString
-        private string inputString;
+        #region InputValue
+        private string inputValue;
 
-        public string InputString
+        public string InputValue
         {
-            get { return inputString; }
+            get { return inputValue; }
             set
             {
-                if (inputString == value)
+                if (inputValue == value)
                     return;
 
-                inputString = value;
-                OnPropertyChanged("InputString");
+                inputValue = value;
+                OnPropertyChanged("InputValue");
             }
         }
         #endregion
@@ -67,8 +67,8 @@ namespace MVVMExample2
             {
                 return addCommand ?? (addCommand = new AppCommand((object obj) =>
                 {
-                    myStringArray.Add(InputString);
-                    InputString = "";
+                    myStringArray.Add(InputValue);
+                    InputValue = "";
                 }));
             }
         }

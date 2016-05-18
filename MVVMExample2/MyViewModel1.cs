@@ -40,8 +40,8 @@ namespace MVVMExample2
         #endregion
 
         #region Result
-        private int result;
-        public int Result
+        private double result;
+        public double Result
         {
             get { return result; }
             set
@@ -51,6 +51,36 @@ namespace MVVMExample2
             }
         }
         #endregion
+
+
+        #region Operations
+        private string[] operations = new string[4] { "+", "-", "*", "/" };
+
+        public string[] Operations
+        {
+            get
+            {
+                return operations;
+            }
+        }
+        #endregion
+
+        #region SelectedOperation
+        private string selectedOperation;
+
+        public string SelectedOperation
+        {
+            get { return selectedOperation; }
+            set
+            {
+                if (selectedOperation == value)
+                    return;
+
+                selectedOperation = value;
+                OnPropertyChanged("SelectedOperation");
+            }
+        }
+        #endregion operation
 
 
         #region AddCommand
@@ -63,7 +93,25 @@ namespace MVVMExample2
                 return addCommand ?? (addCommand = new AppCommand(
                     (object obj) =>
                     {
-                        Result = Left + Right;
+                        switch (selectedOperation)
+                        {
+                            case "+":
+                                Result = Left + Right;
+                                break;
+
+                            case "-":
+                                Result = Left - Right;
+                                break;
+
+                            case "*":
+                                Result = (double)Left * (double)Right;
+                                break;
+
+                            case "/":
+                                Result = (double)Left / (double)Right;
+                                break;
+                        }
+
                         OnPropertyChanged("Result");
                     },
                     (object obj) =>
