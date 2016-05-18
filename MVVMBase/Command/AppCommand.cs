@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using System.Diagnostics;
 
 namespace MVVMBase.Command
 {
-	/// <summary>
-	/// A command whose sole purpose is to
-	/// relay its functionality to other
-	/// objects by invoking delegates. The
-	/// default return value for CanExecute()
-	/// is true.
-	/// </summary>
-	public class AppCommand : ICommand
+    /// <summary>
+    /// A command whose sole purpose is to
+    /// relay its functionality to other
+    /// objects by invoking delegates. The
+    /// default return value for CanExecute()
+    /// is true.
+    /// </summary>
+    public class AppCommand : ICommand
 	{
 		#region Fields
 

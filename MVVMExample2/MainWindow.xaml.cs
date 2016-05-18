@@ -23,6 +23,8 @@ namespace MVVMExample2
         public MainWindow()
         {
             InitializeComponent();
+            grid1.DataContext = new MyViewModel1();
+            grid2.DataContext = new MyViewModel2();
         }
     }
 }
