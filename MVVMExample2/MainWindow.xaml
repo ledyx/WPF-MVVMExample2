@@ -50,8 +50,8 @@
                     <KeyBinding Key="Enter" Command="{Binding AddCommand}" />
                 </TextBox.InputBindings>
             </TextBox>
-            <Button Grid.Row="1" Content="Add" Command="{Binding AddCommand}" />
-            <ListBox Grid.Row="2" ItemsSource="{Binding MyStringArray}" SelectedItem="{Binding SelectedString}">
+            <Button Grid.Row="1" Content="+" Command="{Binding AddCommand}" />
+            <ListBox Grid.Row="2" ItemsSource="{Binding ListItems}" SelectedItem="{Binding ListSelectedItem}">
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Remove" Command="{Binding RemoveCommand}" />
@@ -59,7 +59,7 @@
                 </ListBox.ContextMenu>
             </ListBox>
 
-            <Button Grid.Row="3" Content="Show" Command="{Binding ShowCommand}" />
+            <Button Grid.Row="3" Content="AsyncTask" Command="{Binding AsyncCommand}" />
         </Grid>
     </Grid>
 </Window>

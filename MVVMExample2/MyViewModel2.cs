@@ -11,32 +11,28 @@ namespace MVVMExample2
 {
     class MyViewModel2 : ViewModelBase
     {
-        public MyViewModel2()
-        {
-        }
+        #region ListItems
+        private ObservableCollection<string> listItems = new ObservableCollection<string>();
 
-        #region MyStringArray
-        private ObservableCollection<string> myStringArray = new ObservableCollection<string>();
-
-        public ObservableCollection<string> MyStringArray
+        public ObservableCollection<string> ListItems
         {
-            get { return myStringArray; }
+            get { return listItems; }
         }
         #endregion
 
-        #region SelectedString
-        private string selectedString;
+        #region ListSelectedItem
+        private string listSelectedItem;
 
-        public string SelectedString
+        public string ListSelectedItem
         {
-            get { return selectedString; }
+            get { return listSelectedItem; }
             set
             {
-                if (selectedString == value)
+                if (listSelectedItem == value)
                     return;
 
-                selectedString = value;
-                OnPropertyChanged("SelectedString");
+                listSelectedItem = value;
+                OnPropertyChanged("ListSelectedItem");
             }
         }
         #endregion
@@ -67,7 +63,10 @@ namespace MVVMExample2
             {
                 return addCommand ?? (addCommand = new AppCommand((object obj) =>
                 {
-                    myStringArray.Add(InputValue);
+                    if (InputValue == null || InputValue == string.Empty)
+                        return;
+
+                    ListItems.Add(InputValue);
                     InputValue = "";
                 }));
             }
@@ -83,10 +82,10 @@ namespace MVVMExample2
             {
                 return removeCommand ?? (removeCommand = new AppCommand((object obj) =>
                 {
-                    if (selectedString == null)
+                    if (InputValue == null)
                         return;
 
-                    myStringArray.Remove(selectedString);
+                    listItems.Remove(listSelectedItem);
                 }));
             }
         }
@@ -95,28 +94,30 @@ namespace MVVMExample2
         #region ShowCommand
         List<string> tempList = new List<string>();
 
-        private ICommand showCommand;
+        private ICommand asyncCommand;
 
-        public ICommand ShowCommand
+        public ICommand AsyncCommand
         {
             get
             {
-                return showCommand ?? (showCommand = new AppCommand((object obj) =>
+                return asyncCommand ?? (asyncCommand = new AppCommand((object obj) =>
                 {
+                    var cancellationTokenSource = new CancellationTokenSource();
 
-                    //한번 우회해서 따로 ObservableCollection 담고 대입시키는 형식으로 객체 생성 피해야 할 듯.
-
-                    var strList = new List<string>();
-                    new Thread((object obj1) =>
+                    List<string> tempList = new List<string>();
+                    Task.Factory.StartNew((obj1) =>
                     {
-                        for (int i = 0; i < 65535 * 32; i++)
+                        Random r = new Random();
+
+                        for (int i = 0; i < 999999; i++)
                         {
-                            strList.Add("asdf");
+                            tempList.Add(r.Next(int.MinValue, int.MaxValue).ToString());
                         }
 
-                        myStringArray = new ObservableCollection<string>(strList);
-                        OnPropertyChanged("MyStringArray");
-                    }).Start();
+                        listItems = new ObservableCollection<string>(tempList);
+                        OnPropertyChanged("ListItems");
+
+                    }, TaskCreationOptions.LongRunning, cancellationTokenSource.Token);
                 }));
             }
         }
